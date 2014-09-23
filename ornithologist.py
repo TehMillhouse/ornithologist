@@ -5,11 +5,11 @@
 # By: Ericka Menchen-Trevino http://www.ericka.cc/
 
 # Variables to fill in
-searchterm = "" #must be URL encoded
-fileName = "" #for file name to append, e.g. student name
-language = "" #e.g. "en", "nl", None is ""
-before = "" # get tweets before this date YYYY-MM-DD, "" for "now"
-resultType = "recent" #options are recent, popular or mixed, see API documentation
+# argument parsing, so people don't have to edit this file
+import argparse
+
+# for URL encoding search terms
+import urllib
 
 # using this python module to access the Twitter API https://github.com/bear/python-twitter
 import twitter
@@ -34,6 +34,20 @@ with open('ornithologist.conf', 'r') as config:
     consumer_secret = c[1].strip()
     access_token_key = c[2].strip()
     access_token_secret = c[3].strip()
+
+parser = argparse.ArgumentParser(description='retrieves Twitter data via the Twitter API for further analysis')
+parser.add_argument('--term', dest='searchterm', help='search term', required=True)
+parser.add_argument('--file', dest='fileName', help='For file name to append, e.g. student name')
+parser.add_argument('--lang', dest='language', default='', help='e.g. "en", "nl" (default: None)')
+parser.add_argument('--before', dest='before', default='', help='get tweets before this date YYYY-MM-DD (default: now)')
+parser.add_argument('--type', dest='resultType', default='recent', help='result type: options are recent, popular, mixed, see API documentation. (default: recent)')
+
+args = parser.parse_args()
+searchterm = urllib.quote_plus(args.searchterm) #handle URL encoding
+fileName = args.fileName
+language = args.language
+before = args.before
+resultType = args.resultType
 
 # Twitter authentication
 api = twitter.Api(consumer_key=consumer_key,
