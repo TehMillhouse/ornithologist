@@ -43,7 +43,14 @@ try:
 except OSError:
     print('Config file not found. Please refer to README.', file=sys.stderr)
 
-parser = argparse.ArgumentParser(description='retrieves Twitter data via the Twitter API for further analysis')
+# this is to make sure help instead of usage gets printed on error
+class ArgumentParser(argparse.ArgumentParser):
+    def error(self, message):
+        print('error: %s\n' % message, file=sys.stderr)
+        self.print_help()
+        sys.exit(2)
+
+parser = ArgumentParser(description='retrieves Twitter data via the Twitter API for further analysis')
 parser.add_argument('--term', dest='searchterm', help='search term', required=True)
 parser.add_argument('--file', dest='fileName', help='For file name to append, e.g. student name', required=True)
 parser.add_argument('--lang', dest='language', default='', help='e.g. "en", "nl" (default: None)')
