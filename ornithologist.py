@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 # Ornothologist produces 6 tab-delimited UTF-8 files and one directory per query.
 # See README.md for details.
 # By: Ericka Menchen-Trevino http://www.ericka.cc/
