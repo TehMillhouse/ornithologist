@@ -45,7 +45,7 @@ except OSError:
 
 parser = argparse.ArgumentParser(description='retrieves Twitter data via the Twitter API for further analysis')
 parser.add_argument('--term', dest='searchterm', help='search term', required=True)
-parser.add_argument('--file', dest='fileName', help='For file name to append, e.g. student name')
+parser.add_argument('--file', dest='fileName', help='For file name to append, e.g. student name', required=True)
 parser.add_argument('--lang', dest='language', default='', help='e.g. "en", "nl" (default: None)')
 parser.add_argument('--before', dest='before', default='', help='get tweets before this date YYYY-MM-DD (default: now)')
 parser.add_argument('--type', dest='resultType', default='recent', help='result type: options are recent, popular, mixed, see API documentation. (default: recent)')
