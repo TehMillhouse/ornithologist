@@ -26,11 +26,20 @@ from datetime import tzinfo, datetime
 # to be able to create directories
 import os
 
+# read relevant keys from config file
+with open('ornithologist.conf', 'r') as config:
+    c = config.readlines()
+    assert len(c) == 4, """ornithologist.conf not in the right format. Need 'API key', 'API secret', 'Access token' and 'Access token secret', each in a single line"""
+    consumer_key = c[0].strip()
+    consumer_secret = c[1].strip()
+    access_token_key = c[2].strip()
+    access_token_secret = c[3].strip()
+
 # Twitter authentication
-api = twitter.Api(consumer_key='',
-                      consumer_secret='',
-                      access_token_key='',
-                      access_token_secret='')
+api = twitter.Api(consumer_key=consumer_key,
+                      consumer_secret=consumer_secret,
+                      access_token_key=access_token_key,
+                      access_token_secret=access_token_secret)
 
 #do the actual search
 statuses = api.GetSearch(term=searchterm, result_type=resultType, include_entities=True, count=100, lang=language, until=before)
