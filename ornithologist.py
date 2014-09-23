@@ -4,6 +4,9 @@
 # See README.md for details.
 # By: Ericka Menchen-Trevino http://www.ericka.cc/
 
+# python2/3 interoperability
+from __future__ import print_function
+
 # Variables to fill in
 # argument parsing, so people don't have to edit this file
 import argparse
@@ -26,14 +29,19 @@ from datetime import tzinfo, datetime
 # to be able to create directories
 import os
 
+import sys
+
 # read relevant keys from config file
-with open('ornithologist.conf', 'r') as config:
-    c = config.readlines()
-    assert len(c) == 4, """ornithologist.conf not in the right format. Need 'API key', 'API secret', 'Access token' and 'Access token secret', each in a single line"""
-    consumer_key = c[0].strip()
-    consumer_secret = c[1].strip()
-    access_token_key = c[2].strip()
-    access_token_secret = c[3].strip()
+try:
+    with open('ornithologist.conf', 'r') as config:
+        c = config.readlines()
+        assert len(c) == 4, """ornithologist.conf not in the right format. Need 'API key', 'API secret', 'Access token' and 'Access token secret', each in a single line"""
+        consumer_key = c[0].strip()
+        consumer_secret = c[1].strip()
+        access_token_key = c[2].strip()
+        access_token_secret = c[3].strip()
+except OSError:
+    print('Config file not found. Please refer to README.', file=sys.stderr)
 
 parser = argparse.ArgumentParser(description='retrieves Twitter data via the Twitter API for further analysis')
 parser.add_argument('--term', dest='searchterm', help='search term', required=True)
